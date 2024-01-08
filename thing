@@ -1,0 +1,46 @@
+// This script is responsible for fetching game data from an API
+// and displaying it on a game website.
+
+const API_URL = 'https://api.example.com/games';
+
+// Function to fetch game data from the API
+async function fetchGames() {
+  try {
+    const response = await fetch(API_URL);
+    const games = await response.json();
+    return games;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// Function to display game data on the website
+function displayGames(games) {
+  const gameList = document.getElementById('game-list');
+  
+  games.forEach(game => {
+    const gameElement = document.createElement('div');
+    gameElement.classList.add('game');
+    
+    const titleElement = document.createElement('h2');
+    titleElement.textContent = game.title;
+    
+    const descriptionElement = document.createElement('p');
+    descriptionElement.textContent = game.description;
+    
+    const genreElement = document.createElement('p');
+    genreElement.textContent = `Genre: ${game.genre}`;
+    
+    gameElement.appendChild(titleElement);
+    gameElement.appendChild(descriptionElement);
+    gameElement.appendChild(genreElement);
+    
+    gameList.appendChild(gameElement);
+  });
+}
+
+// Fetch game data and display it on page load
+window.addEventListener('load', async () => {
+  const games = await fetchGames();
+  displayGames(games);
+});
